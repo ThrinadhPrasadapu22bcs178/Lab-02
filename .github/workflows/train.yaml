@@ -41,5 +41,5 @@ jobs:
       with:
         name: model-and-metrics
         path: |
-          outputs/model.pkl
-          outputs/metrics.json
+          model.pkl
+          metrics.json
