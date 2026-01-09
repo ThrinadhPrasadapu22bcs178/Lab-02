@@ -1,4 +1,4 @@
-name: Train Model
+name: Model Training Pipeline
 
 on:
   push:
@@ -7,54 +7,39 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  train:
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: "3.10"
+        python-version: '3.10'
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: |
         pip install -r requirements.txt
 
-    - name: Run Training Script
-      id: train
+    - name: Run training script
       run: |
-        python src/train.py | tee training_output.txt
+        python train.py | tee output.txt
 
-    - name: Extract Metrics
-      id: extract
+    - name: Job Summary
       run: |
-        MSE=$(grep "MSE:" training_output.txt | awk '{print $2}')
-        R2=$(grep "R2:" training_output.txt | awk '{print $2}')
-        echo "mse=$MSE" >> $GITHUB_OUTPUT
-        echo "r2=$R2" >> $GITHUB_OUTPUT
-
-    - name: Write Job Summary
-      run: |
-        echo "## Lab 02 — Model Metrics" >> $GITHUB_STEP_SUMMARY
-        echo "**Name:** Thrinadh Prasadapu" >> $GITHUB_STEP_SUMMARY
-        echo "**Roll Number:** 2022BCS178" >> $GITHUB_STEP_SUMMARY
+        echo "## Experiment Results" >> $GITHUB_STEP_SUMMARY
+        echo "**Name:** ABDUL-Rahim" >> $GITHUB_STEP_SUMMARY
+        echo "**Roll No:** 2022BCS0109" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### Evaluation Results" >> $GITHUB_STEP_SUMMARY
-        echo "- **MSE:** ${{ steps.extract.outputs.mse }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **R² Score:** ${{ steps.extract.outputs.r2 }}" >> $GITHUB_STEP_SUMMARY
+        grep "MSE" output.txt >> $GITHUB_STEP_SUMMARY
+        grep "R2" output.txt >> $GITHUB_STEP_SUMMARY
 
-    - name: Upload Trained Model
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: trained-model
-        path: outputs/model.pkl
-
-    - name: Upload Metrics JSON
-      uses: actions/upload-artifact@v4
-      with:
-        name: metrics-file
-        path: outputs/metrics.json
+        name: model-and-results
+        path: |
+          outputs/model/model.pkl
+          outputs/results/results.json
