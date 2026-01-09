@@ -64,7 +64,7 @@ print(f"R2 Score: {r2}")
 # -------------------------
 # Save model
 # -------------------------
-joblib.dump(model, "output/model/model.pkl")
+joblib.dump(model, "outputs/model/model.pkl")
 
 # -------------------------
 # Save results
