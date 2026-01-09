@@ -25,21 +25,21 @@ jobs:
 
     - name: Run training script
       run: |
-        python train.py | tee output.txt
+        python src/train.py | tee output.txt
 
-    - name: Job Summary
+    - name: Summary Report
       run: |
         echo "## Experiment Results" >> $GITHUB_STEP_SUMMARY
         echo "**Name:** Thrinadh" >> $GITHUB_STEP_SUMMARY
         echo "**Roll No:** 2022BCS0178" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        grep "MSE" output.txt >> $GITHUB_STEP_SUMMARY
+        grep "MSE:" output.txt >> $GITHUB_STEP_SUMMARY
         grep "R2" output.txt >> $GITHUB_STEP_SUMMARY
 
-    - name: Upload artifacts
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: model-and-results
+        name: model-and-metrics
         path: |
-          outputs/model/model.pkl
-          outputs/results/results.json
+          outputs/model.pkl
+          outputs/metrics.json
