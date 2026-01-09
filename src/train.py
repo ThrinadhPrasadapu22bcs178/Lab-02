@@ -52,12 +52,12 @@ r2 = r2_score(y_test, y_pred)
 os.makedirs("outputs", exist_ok=True)
 
 # Save trained model
-joblib.dump(model, "outputs/model.pkl")
+joblib.dump(model, "model.pkl")
 
 # Save metrics JSON
 metrics = {"MSE": mse, "R2": r2}
 
-with open("outputs/metrics.json", "w") as f:
+with open("metrics.json", "w") as f:
     json.dump(metrics, f, indent=4)
 
 # -----------------------------
