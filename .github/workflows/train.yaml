@@ -11,13 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
@@ -41,5 +42,5 @@ jobs:
       with:
         name: model-and-metrics
         path: |
-          model.pkl
-          metrics.json
+          outputs/model.pkl
+          outputs/metrics.json

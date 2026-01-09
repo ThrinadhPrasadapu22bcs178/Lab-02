@@ -8,6 +8,11 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error, r2_score
 
 # -----------------------------
+# Create output directory
+# -----------------------------
+Path("outputs").mkdir(exist_ok=True)
+
+# -----------------------------
 # Load dataset
 # -----------------------------
 df = pd.read_csv("data/winequality-red.csv", sep=';')
@@ -41,19 +46,18 @@ preds = model.predict(X_test)
 mse = mean_squared_error(y_test, preds)
 r2 = r2_score(y_test, preds)
 
-# Print for GitHub Actions
 print(f"MSE: {mse}")
 print(f"R2 Score: {r2}")
 
 # -----------------------------
-# Save model
+# Save Model
 # -----------------------------
-joblib.dump(model, "model.pkl")
+joblib.dump(model, "outputs/model.pkl")
 
 # -----------------------------
-# Save metrics
+# Save Metrics
 # -----------------------------
 metrics = {"MSE": mse, "R2": r2}
 
-with open("metrics.json", "w") as f:
+with open("outputs/metrics.json", "w") as f:
     json.dump(metrics, f, indent=4)
